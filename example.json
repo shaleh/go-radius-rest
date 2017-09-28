@@ -1,0 +1,10 @@
+{
+    "Database": {
+        "User": "web",
+        "Password": "web",
+        "Host": "dbserver.example.com",
+        "Name": "radius"
+    },
+    "Host": "",
+    "Port": 8000
+}
