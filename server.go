@@ -24,8 +24,7 @@ func main() {
 
 	_db, err = sqlConnect(config)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failure to connect to database: %s\n", err.Error())
-		os.Exit(1)
+		die("Failure to connect to database: %s\n", err.Error())
 	}
 	defer _db.Close()
 
