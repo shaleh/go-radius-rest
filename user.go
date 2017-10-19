@@ -42,21 +42,29 @@ func NewRadiusUser(db *sql.DB, name string) (user *RadiusUser, err error) {
 }
 
 func (user *RadiusUser) IsDisabled() (bool, error) {
-	stmt, _ := user.db.Prepare("SELECT 1 FROM radusergroup WHERE username=? and groupname='disabled'")
+	stmt, err := user.db.Prepare("SELECT 1 FROM radusergroup WHERE username=? and groupname='disabled'")
+	if err != nil {
+		return false, err
+	}
+
 	var value int
-	err := stmt.QueryRow(user.Name).Scan(&value)
+	err = stmt.QueryRow(user.Name).Scan(&value)
 	switch err {
 	case nil:
 		user.Disabled = true
 	case sql.ErrNoRows:
-		err = nil // user is not disabled
+		err = nil // now rows, user is not disabled
+		user.Disabled = false
 	}
 
 	return user.Disabled, err
 }
 
 func (user *RadiusUser) Disable() error {
-	stmt, _ := user.db.Prepare("INSERT INTO radusergroup (username, groupname, priority) values(?,'disabled', 1)")
+	stmt, err := user.db.Prepare("INSERT INTO radusergroup (username, groupname, priority) values(?,'disabled', 1)")
+	if err != nil {
+		return err
+	}
 	result, err := stmt.Exec(user.Name)
 	if err == nil {
 		_, err = result.RowsAffected()
