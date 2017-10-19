@@ -2,9 +2,11 @@
 
 The service exposes the following endpoints.
 
-    GET /users expects a list of users that have a `name` and a `disabled` boolean.
-    PUT /users/<name>/disable will disable a user in RADIUS
-    PUT /users/<name>/reactivate will reactivate a user in RADIUS
+    GET /users/<name>/           a `name` string and a `disabled` boolean
+    GET /users/<name>/status     just the `disabled` boolean
+    GET /users                   a list of users
+    PUT /users/<name>/disable    disable a user in RADIUS
+    PUT /users/<name>/reactivate reactivate a user in RADIUS
 
 That is it. Yes, it is disable/reactivate not disable/enable. This was done to
 prevent accidental calls.
