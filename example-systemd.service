@@ -1,0 +1,14 @@
+[Unit]
+Description=Radius REST Server for user management
+After=freeradius.service mariadb.service
+
+[Service]
+Environment=GIN_MODE=release
+ExecStart=/usr/local/sbin/go-radius-rest /etc/radius-rest.json
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
